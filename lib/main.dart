@@ -41,23 +41,35 @@ class _CarTablePageState extends State<CarTablePage> {
   int? _sortColumnIndex;
   bool _sortAscending = true;
 
-  final List<Car> carData = [
-    const Car(
+  static const List<Car> _originalCarData = [
+    Car(
       carMake: 'Honda',
       model: '2021',
       price: 35000.0,
     ),
-    const Car(
+    Car(
       carMake: 'Toyota',
       model: '2011',
       price: 6000.0,
     ),
-    const Car(
+    Car(
       carMake: 'BMW',
       model: '2010',
       price: 9000.0,
     ),
   ];
+
+  List<Car> _carData = List<Car>.of(_originalCarData);
+
+  void _resetSorting() {
+    if (_sortColumnIndex == null) return;
+
+    setState(() {
+      _carData = List<Car>.of(_originalCarData);
+      _sortColumnIndex = null;
+      _sortAscending = true;
+    });
+  }
 
   void _sort<T extends Comparable<T>>(
     T Function(Car car) getField,
@@ -65,7 +77,7 @@ class _CarTablePageState extends State<CarTablePage> {
     bool ascending,
   ) {
     setState(() {
-      carData.sort((a, b) {
+      _carData.sort((a, b) {
         final aValue = getField(a);
         final bValue = getField(b);
 
@@ -86,6 +98,16 @@ class _CarTablePageState extends State<CarTablePage> {
         title: const Text('DataTable Sorting'),
         backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
+        actions: [
+          TextButton(
+            onPressed: _sortColumnIndex == null ? null : _resetSorting,
+            style: TextButton.styleFrom(
+              foregroundColor: Colors.white,
+              disabledForegroundColor: Colors.white54,
+            ),
+            child: const Text('Reset Sorting'),
+          ),
+        ],
       ),
 
       body: SingleChildScrollView(
@@ -131,7 +153,7 @@ class _CarTablePageState extends State<CarTablePage> {
             ),
           ],
 
-          rows: carData.map((car) {
+          rows: _carData.map((car) {
             return DataRow(
               cells: [
                 DataCell(Text(car.carMake)),
