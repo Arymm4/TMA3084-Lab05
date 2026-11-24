@@ -68,15 +68,17 @@ class _CarTablePageState extends State<CarTablePage> {
   }
 
   void _resetSorting() {
-    setState(() {
-      _cars
-        ..clear()
-        ..addAll(_originalCars);
+  if (_sortColumnIndex == null) return;
 
-      _sortColumnIndex = null;
-      _sortAscending = true;
-    });
-  }
+  setState(() {
+    _cars
+      ..clear()
+      ..addAll(_originalCars);
+
+    _sortColumnIndex = null;
+    _sortAscending = true;
+  });
+}
 
   @override
   Widget build(BuildContext context) {
