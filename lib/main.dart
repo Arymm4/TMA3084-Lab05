@@ -95,7 +95,7 @@ class _CarTablePageState extends State<CarTablePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('DataTable Sorting'),
+        title: const Text('Lab 05: DataTable Sorting'),
         backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
         actions: [
